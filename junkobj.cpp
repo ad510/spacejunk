@@ -27,7 +27,7 @@ void JunkObj::collidePlayer() {
 /** accelerate randomly and update velocity using gravity calculation
     @return index of object collided with */
 int JunkObj::updateVel() {
-  if (game->randF() * 3 * UpdateRate < 1) {
+  if (game->randF() * 3267 / UpdateRate < 1) {
     emitObj(Propel, game->randF() * JunkAccel * 2 - JunkAccel, game->randF() * JunkAccel * 2 - JunkAccel);
   }
   return Obj::updateVel();

@@ -28,7 +28,7 @@ void MissileObj::collidePlayer() {
 int MissileObj::updateVel() {
   int collided;
   // make emission rate proportional to propellant remaining
-  if (!game->getGameOver() && game->randF() * 0.1 * UpdateRate < nPropel / MissileMaxPropel && (game->getPlayer()->getX() != x || game->getPlayer()->getY() != y)) {
+  if (!game->getGameOver() && game->randF() * 109 / UpdateRate < nPropel / MissileMaxPropel && (game->getPlayer()->getX() != x || game->getPlayer()->getY() != y)) {
     double xTarget = game->getPlayer()->getX();
     double yTarget = game->getPlayer()->getY();
     // reduce mass due to ejected propellent

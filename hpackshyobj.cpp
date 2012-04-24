@@ -21,7 +21,7 @@ HPackShyObj::HPackShyObj(double maxPos, double minPos, Game *gamePtr) : HPackObj
     @return index of object collided with */
 int HPackShyObj::updateVel() {
   double distSqToPl = distSqTo(game->getPlayer()->getX(), game->getPlayer()->getY());
-  if (!game->getGameOver() && distSqToPl < HPackShyAvoidDist * HPackShyAvoidDist && game->randF() * 0.1 * UpdateRate < 1) {
+  if (!game->getGameOver() && distSqToPl < HPackShyAvoidDist * HPackShyAvoidDist && game->randF() * 109 / UpdateRate < 1) {
     // too close to player, emit propellant to move away
     double distToPl = sqrt(distSqToPl);
     emitObj(Propel, (x - game->getPlayer()->getX()) / distToPl * HPackShyAccel, (y - game->getPlayer()->getY()) / distToPl * HPackShyAccel);

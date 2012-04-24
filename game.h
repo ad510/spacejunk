@@ -29,6 +29,7 @@
 // game constants
 const double UpdateRate = 33; // screen refresh rate in milliseconds
 const int TextHeight = 25; // height of a line of text in pixels
+const int HealthMax = 150; // amount of player health at start of level
 const int NLevel = 4; // number of levels in game
 const int NSnd = 6; // number of copies to store of each sound
 const int NCollectSnd = 1; // number of collect sounds
@@ -38,20 +39,20 @@ const int NExplodeSnd = 1; // number of explode sounds
 // object constants
 const int NObjType = 14; // number of types of game objects
 const double OrbitMax = 500, OrbitMin = 100; // min & max initial orbiting distances
-const double StdMass = 0.001, StdCharge = 0.015, StdRadius = 20; // properties shared by several types of objects
-const double PlAccel = 1, PlMass = StdMass, PlRadius = 10; // player properties
+const double StdAccel = UpdateRate / 33, StdMass = 0.001, StdCharge = 0.015, StdRadius = 20; // properties shared by several types of objects
+const double PlAccel = StdAccel, PlMass = StdMass, PlRadius = 10; // player properties
 const double SunFlareSize = 5, SunMass = 5, SunRadius = StdRadius; // sun properties
 const double PlanetMass = SunMass * 0.01, PlanetRadius = StdRadius; // planet properties
 const double UnobtainMass = StdMass, UnobtainRadius = StdRadius; // unobtainium properties
-const double UnobtainShyAvoidDist = 100, UnobtainShyAccel = 1; // shy unobtainium properties
+const double UnobtainShyAvoidDist = 100, UnobtainShyAccel = StdAccel; // shy unobtainium properties
 const double UnobtainChgCharge = StdCharge; // charged unobtainium properties
 const double HPackMass = StdMass, HPackRadius = StdRadius; // health pack properties
-const double HPackShyAvoidDist = 100, HPackShyAccel = 1; // shy health pack properties
+const double HPackShyAvoidDist = 100, HPackShyAccel = StdAccel; // shy health pack properties
 const double HPackChgCharge = StdCharge; // charged health pack properties
-const double JunkAccel = 1, JunkMass = StdMass, JunkRadius = StdRadius; // space junk properties
-const double SpawnerAccel = 1, SpawnerMass = StdMass, SpawnerRadius = StdRadius; // spawner properties
-const double ShootMAccel = 3, ShootMMass = StdMass, ShootMRadius = 30; // missile shooter properties
-const double MissileMaxPropel = 100, MissileAccel = 1, MissileMass = StdMass, MissileEmptyMass = StdMass / 3, MissileRadius = StdRadius; // missile properties
+const double JunkAccel = StdAccel, JunkMass = StdMass, JunkRadius = StdRadius; // space junk properties
+const double SpawnerAccel = StdAccel, SpawnerMass = StdMass, SpawnerRadius = StdRadius; // spawner properties
+const double ShootMAccel = StdAccel * 3, ShootMMass = StdMass, ShootMRadius = 30; // missile shooter properties
+const double MissileMaxPropel = 100, MissileAccel = StdAccel, MissileMass = StdMass, MissileEmptyMass = StdMass / 3, MissileRadius = StdRadius; // missile properties
 const double PrMass = StdMass / 5, PrRadius = 10; // propellant properties (most realistic mass would be (MissileMass - MissileEmptyMass) / MissileMaxPropel)
 
 /** Qt widget for the game window */
@@ -70,8 +71,6 @@ class Game : public QWidget {
     int frame;
     /** whether the player lost or won */
     bool gameOver;
-    /** amount of player health at start of level */
-    int healthMax;
     /** amount of player health remaining */
     int health;
     /** number of objects of each type at start of level */

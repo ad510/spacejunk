@@ -21,7 +21,7 @@ UnobtainShyObj::UnobtainShyObj(double maxPos, double minPos, Game *gamePtr) : Un
     @return index of object collided with */
 int UnobtainShyObj::updateVel() {
   double distSqToPl = distSqTo(game->getObj(0)->getX(), game->getObj(0)->getY());
-  if (!game->getGameOver() && distSqToPl < UnobtainShyAvoidDist * UnobtainShyAvoidDist && game->randF() * 0.1 * UpdateRate < 1) {
+  if (!game->getGameOver() && distSqToPl < UnobtainShyAvoidDist * UnobtainShyAvoidDist && game->randF() * 109 / UpdateRate < 1) {
     // too close to player, emit propellant to move away
     double distToPl = sqrt(distSqToPl);
     emitObj(Propel, (x - game->getObj(0)->getX()) / distToPl * UnobtainShyAccel, (y - game->getObj(0)->getY()) / distToPl * UnobtainShyAccel);

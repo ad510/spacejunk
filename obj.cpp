@@ -79,6 +79,7 @@ void Obj::explode(int nParticle, Obj *obj, double maxSpd) {
   Obj *eObj[nParticle];
   double tempXVel, tempYVel, avgXVel = 0, avgYVel = 0;
   int i;
+  maxSpd *= StdAccel;
   // create propellant with random velocities up to maxSpd
   for (i = 0; i < nParticle; i++) {
     do {
@@ -110,7 +111,7 @@ double Obj::collide(Obj *obj) {
   double diffKE;
   xVel = (xVel * mass + obj->getXVel() * obj->getMass()) / (mass + obj->getMass());
   yVel = (yVel * mass + obj->getYVel() * obj->getMass()) / (mass + obj->getMass());
-  diffKE = obj->getMass() * (pow(xVel - obj->getXVel(), 2) + pow(yVel - obj->getYVel(), 2));
+  diffKE = obj->getMass() * (pow((xVel - obj->getXVel()) / StdAccel, 2) + pow((yVel - obj->getYVel()) / StdAccel, 2));
   obj->accel(xVel - obj->getXVel(), yVel - obj->getYVel());
   return diffKE;
 }

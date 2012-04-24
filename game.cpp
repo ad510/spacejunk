@@ -99,7 +99,6 @@ void Game::newGame(int newLevel) {
   // set level settings
   level = newLevel;
   ss << "Space Junk - ";
-  healthMax = 150;
   objsInitial[Obj::Player] = 1;
   objsInitial[Obj::Sun] = 1;
   switch (level) {
@@ -128,7 +127,7 @@ void Game::newGame(int newLevel) {
       break;
   }
   setWindowTitle(ss.str().c_str());
-  health = healthMax;
+  health = HealthMax;
   // make game objects
   for (i = 0; i < NObjType; i++) {
     for (j = 0; j < objsInitial[i]; j++) {
@@ -557,7 +556,7 @@ void Game::subtHealth(int amount) {
 
 /** set player health to maximum amount for this level */
 void Game::setMaxHealth() {
-  if (!gameOver) health = healthMax;
+  if (!gameOver) health = HealthMax;
 }
 
 /** getter for game over */
