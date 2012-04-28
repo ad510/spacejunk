@@ -201,7 +201,8 @@ void Game::paintEvent(QPaintEvent *evt) {
       drawInstrObj(Obj::HPackShy, textY, drawX);
       drawInstrObj(Obj::HPackChg, textY, drawX);
     }
-    drawCenterText("Don't run into ANYTHING except the objects you collect", textY + TextHeight * 2);
+    drawCenterText("Don't run into ANYTHING except the objects you collect,", textY + TextHeight * 2);
+    drawCenterText("and remember that things orbit around the sun...", textY + TextHeight * 3);
     drawCenterText("Press any key to continue", height() - TextHeight);
     painter = NULL;
     return; // we don't need to draw everything else yet
