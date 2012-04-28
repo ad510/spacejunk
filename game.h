@@ -18,6 +18,7 @@
 #include <QSound>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QTime>
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -69,6 +70,8 @@ class Game : public QWidget {
     int level;
     /** frame counter */
     int frame;
+    /** records actual time since game start */
+    QTime clock;
     /** whether the player lost or won */
     bool gameOver;
     /** amount of player health remaining */
@@ -83,6 +86,8 @@ class Game : public QWidget {
     std::vector<Obj*> objs;
     /** whether to draw background images instead of a black background */
     bool bkImgsEnable;
+    /** whether background images disabled due to lag */
+    bool lag;
     /** background images for each level */
     QImage bkImgs[NLevel];
     /** background image of current level, scaled to window size */

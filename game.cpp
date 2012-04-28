@@ -61,6 +61,7 @@ Game::Game() {
   }
   // start a game
   bkImgsEnable = true;
+  lag = false;
   drawScl = 1;
   newGame(0);
   // show window
@@ -158,8 +159,14 @@ void Game::paintEvent(QPaintEvent *evt) {
   std::stringstream ss;
   int textY = TextHeight;
   painter = &localPainter;
+  // disable background images if lagging (classmates will be running this over SSH)
+  if (10 == frame && !lag && clock.elapsed() > UpdateRate * frame * 1.5) {
+    std::cout << "Disabling background images due to lag; press B to re-enable them." << std::endl;
+    bkImgsEnable = false;
+    lag = true;
+  }
   // draw background image
-  if (bkImgsEnable) painter->drawImage(bkImgScl.rect(), bkImgScl);
+  if (bkImgsEnable || 0 == frame) painter->drawImage(bkImgScl.rect(), bkImgScl);
   if (0 == frame) {
     int drawX;
     // draw instructions
@@ -307,6 +314,7 @@ void Game::keyPressEvent(QKeyEvent *evt) {
   if (0 == frame && evt->key() != Qt::Key_Escape) {
     // start game
     killTimer(timerId); // in case timer is still running
+    clock.start();
     timerId = startTimer(UpdateRate);
     return;
   }
@@ -358,7 +366,7 @@ void Game::keyPressEvent(QKeyEvent *evt) {
 /** handle mouse press from user (to move player) */
 void Game::mousePressEvent(QMouseEvent *evt) {
   double xMove, yMove;
-  if (Qt::LeftButton == evt->button() && !gameOver) {
+  if (Qt::LeftButton == evt->button() && !gameOver && frame > 0) {
     xMove = evt->pos().x() - width() / 2;
     yMove = evt->pos().y() - height() / 2;
     player->emitPropel(xMove / sqrt(xMove * xMove + yMove * yMove) * PlAccel, yMove / sqrt(xMove * xMove + yMove * yMove) * PlAccel);

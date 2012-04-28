@@ -28,8 +28,9 @@ void PlayerObj::collidePlayer() { }
 /** update velocity using gravity calculation and delete player some time after losing
     @return index of object collided with */
 int PlayerObj::updateVel() {
-  if (loseFrame != -1 && game->getFrame() >= loseFrame + 5 * UpdateRate) setDelete(); // delete player and center screen on sun after losing for 5 seconds
-  return Obj::updateVel(); // update velocity by calling parent class
+  int collided = Obj::updateVel(); // update velocity by calling parent class
+  if (loseFrame != -1 && (game->getFrame() >= loseFrame + 5 * UpdateRate || (collided > 0 && Sun == game->getObj(collided)->getType()))) setDelete(); // delete player and center screen on sun after losing for 5 seconds
+  return collided;
 }
 
 /** draw image of player (only if hasn't lost) */
