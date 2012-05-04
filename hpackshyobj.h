@@ -18,7 +18,7 @@ class HPackShyObj : public HPackObj {
   public:
     HPackShyObj(double newX, double newY, double newXVel, double newYVel, Game *gamePtr);
     HPackShyObj(double maxPos, double minPos, Game *gamePtr);
-    virtual int updateVel();
+    virtual void updateVel();
     virtual ObjType getType() const;
 };
 

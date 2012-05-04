@@ -21,7 +21,7 @@ class MissileObj : public Obj {
   public:
     MissileObj(double newX, double newY, double newXVel, double newYVel, Game *gamePtr);
     virtual void collidePlayer();
-    virtual int updateVel();
+    virtual void updateVel();
     virtual ObjType getType() const;
 };
 

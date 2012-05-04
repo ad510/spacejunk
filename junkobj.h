@@ -19,7 +19,7 @@ class JunkObj : public Obj {
     JunkObj(double newX, double newY, double newXVel, double newYVel, Game *gamePtr);
     JunkObj(double maxPos, double minPos, Game *gamePtr);
     virtual void collidePlayer();
-    virtual int updateVel();
+    virtual void updateVel();
     virtual void draw();
     virtual ObjType getType() const;
 };

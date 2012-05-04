@@ -22,7 +22,7 @@ class ShootMObj : public Obj {
     ShootMObj(double newX, double newY, double newXVel, double newYVel, Game *gamePtr);
     ShootMObj(double maxPos, double minPos, Game *gamePtr);
     virtual void collidePlayer();
-    virtual int updateVel();
+    virtual void updateVel();
     virtual void draw();
     virtual ObjType getType() const;
 };

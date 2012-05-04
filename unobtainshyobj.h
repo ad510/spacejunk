@@ -18,7 +18,7 @@ class UnobtainShyObj : public UnobtainObj {
   public:
     UnobtainShyObj(double newX, double newY, double newXVel, double newYVel, Game *gamePtr);
     UnobtainShyObj(double maxPos, double minPos, Game *gamePtr);
-    virtual int updateVel();
+    virtual void updateVel();
     virtual ObjType getType() const;
 };
 

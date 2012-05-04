@@ -22,7 +22,7 @@ class PlayerObj : public Obj {
     PlayerObj(double newX, double newY, double newXVel, double newYVel, Game *gamePtr);
     void emitPropel(double accelX, double accelY);
     virtual void collidePlayer();
-    virtual int updateVel();
+    virtual void updateVel();
     virtual void draw();
     void addCharge(double amount);
     void setLose();

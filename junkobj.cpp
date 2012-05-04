@@ -24,13 +24,12 @@ void JunkObj::collidePlayer() {
   setDelete();
 }
 
-/** accelerate randomly and update velocity using gravity calculation
-    @return index of object collided with */
-int JunkObj::updateVel() {
+/** accelerate randomly and update velocity using gravity calculation */
+void JunkObj::updateVel() {
   if (game->randF() * 3267 / UpdateRate < 1) {
     emitObj(Propel, game->randF() * JunkAccel * 2 - JunkAccel, game->randF() * JunkAccel * 2 - JunkAccel);
   }
-  return Obj::updateVel();
+  Obj::updateVel();
 }
 
 /** draw image of space junk (always onscreen) */

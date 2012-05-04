@@ -27,16 +27,15 @@ void ShootMObj::collidePlayer() {
   explode(20, game->getPlayer());
 }
 
-/** shoot missile and update velocity using gravity calculation
-    @return index of object collided with */
-int ShootMObj::updateVel() {
+/** shoot missile and update velocity using gravity calculation */
+void ShootMObj::updateVel() {
   if (!game->getGameOver() && game->getFrame() >= shootFrame) {
     // shoot missile at player
     double distToPl = sqrt(distSqTo(game->getPlayer()->getX(), game->getPlayer()->getY()));
     emitObj(Missile, (x - game->getPlayer()->getX()) / distToPl * ShootMAccel, (y - game->getPlayer()->getY()) / distToPl * ShootMAccel);
     shootFrame = game->getFrame() + 5000 / (int)UpdateRate + rand() % (5000 / (int)UpdateRate);
   }
-  return Obj::updateVel();
+  Obj::updateVel();
 }
 
 /** draw image of missile shooter (always onscreen) */

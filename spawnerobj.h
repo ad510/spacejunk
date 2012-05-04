@@ -23,7 +23,7 @@ class SpawnerObj : public Obj {
     SpawnerObj(double newX, double newY, double newXVel, double newYVel, Game *gamePtr);
     SpawnerObj(double maxPos, double minPos, Game *gamePtr);
     virtual void collidePlayer();
-    virtual int updateVel();
+    virtual void updateVel();
     virtual void draw();
     virtual ObjType getType() const;
 };

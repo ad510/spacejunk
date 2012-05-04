@@ -23,10 +23,8 @@ void MissileObj::collidePlayer() {
   setDelete();
 }
 
-/** accelerate towards player, update velocity using gravity calculation, and remove any missile shooter colliding with
-    @return index of object collided with */
-int MissileObj::updateVel() {
-  int collided;
+/** accelerate towards player, update velocity using gravity calculation, and remove any missile shooter colliding with */
+void MissileObj::updateVel() {
   // make emission rate proportional to propellant remaining
   if (!game->getGameOver() && game->randF() * 109 / UpdateRate < nPropel / MissileMaxPropel && (game->getPlayer()->getX() != x || game->getPlayer()->getY() != y)) {
     double xTarget = game->getPlayer()->getX();
@@ -45,7 +43,7 @@ int MissileObj::updateVel() {
     double distToTarget = sqrt(distSqTo(xTarget, yTarget));
     emitObj(Propel, (xTarget - x) / distToTarget * MissileAccel * MissileMass / mass, (yTarget - y) / distToTarget * MissileAccel * MissileMass / mass);
   }
-  collided = Obj::updateVel();
+  Obj::updateVel();
   if (collided >= 0 && ShootM == game->getObj(collided)->getType()) {
     // missile collided with missile shooter, explode and remove missile shooter and self
     collide(game->getObj(collided));
@@ -53,7 +51,6 @@ int MissileObj::updateVel() {
     game->getObj(collided)->setDelete();
     setDelete();
   }
-  return collided;
 }
 
 /** getter for object type */

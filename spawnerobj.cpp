@@ -33,14 +33,13 @@ void SpawnerObj::collidePlayer() {
   setDelete();
 }
 
-/** self-reproduce and update velocity using gravity calculation
-    @return index of object collided with */
-int SpawnerObj::updateVel() {
+/** self-reproduce and update velocity using gravity calculation */
+void SpawnerObj::updateVel() {
   if (game->getFrame() >= spawnFrame && game->getNObj(getType()) < 300) {
     emitObj(Spawner, game->randF() * SpawnerAccel * 2 - SpawnerAccel, game->randF() * SpawnerAccel * 2 - SpawnerAccel, true);
     resetSpawnFrame();
   }
-  return Obj::updateVel();
+  Obj::updateVel();
 }
 
 /** draw image of spawner (always onscreen) */

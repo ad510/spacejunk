@@ -20,10 +20,9 @@ void PropelObj::collidePlayer() {
   game->playHitSnd();
 }
 
-/** update velocity using gravity calculation and remove any space junk colliding with
-    @return index of object collided with */
-int PropelObj::updateVel() {
-  int collided = Obj::updateVel();
+/** update velocity using gravity calculation and remove any space junk colliding with */
+void PropelObj::updateVel() {
+  Obj::updateVel();
   if (collided >= 0 && (Junk == game->getObj(collided)->getType() || Spawner == game->getObj(collided)->getType()) && !game->getObj(collided)->getDelete()) {
     // propellant collided with space junk/spawner, explode space junk/spawner
     collide(game->getObj(collided));
@@ -31,7 +30,6 @@ int PropelObj::updateVel() {
     game->getObj(collided)->setDelete();
     setDelete();
   }
-  return collided;
 }
 
 /** getter for object type */

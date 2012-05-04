@@ -53,6 +53,8 @@ class Obj {
     double rotate;
     /** flag marking object for deletion in this frame */
     bool del;
+    /** index of object collided with */
+    int collided;
     /** whether collided with player in previous frame */
     bool collidedPlLast;
     /** pointer to game class */
@@ -65,10 +67,11 @@ class Obj {
     void explode(int nParticle, Obj *obj, double maxSpd = 2);
     double collide(Obj *obj);
     virtual void collidePlayer() = 0;
-    virtual int updateVel();
+    virtual void updateVel();
     void updatePos();
     virtual void draw();
     void setDelete();
+    void setCollided(int newCollided);
     double distSqTo(double toX, double toY) const;
     virtual ObjType getType() const = 0;
     double getX() const;

@@ -22,6 +22,7 @@ Obj::Obj(double newX, double newY, double newXVel, double newYVel, double newMas
   radius = newRadius;
   rotateAim = 0;
   rotate = 0;
+  collided = -1;
   collidedPlLast = false;
   del = false;
   game = gamePtr;
@@ -43,6 +44,7 @@ Obj::Obj(double maxPos, double minPos, double newMass, double newRadius, Game *g
   radius = newRadius;
   rotateAim = 0;
   rotate = 0;
+  collided = -1;
   collidedPlLast = false;
   del = false;
   game = gamePtr;
@@ -116,37 +118,31 @@ double Obj::collide(Obj *obj) {
   return diffKE;
 }
 
-/** update velocity using gravity and electrostatic force calculation
-    @return index of object collided with */
-int Obj::updateVel() {
-  double xAccel = 0, yAccel = 0, distSq, temp;
-  int collided = -1;
+/** update velocity using gravity and electrostatic force calculation */
+void Obj::updateVel() {
+  double distSq, temp;
+  int objId;
   // check for collision with player
   if (!game->getGameOver() && this != game->getPlayer()) {
     bool collidedPl = game->getPlayer()->distSqTo(x, y) < pow(radius + game->getPlayer()->getRadius(), 2);
     if (collidedPl && !collidedPlLast) collidePlayer();
     collidedPlLast = collidedPl;
   }
-  // calculate acceleration due to gravity and electrostatic force on object
-  for (int i = 0; i < game->getNObj(); i++) {
-    if (game->getObj(i) == this) continue; // skip object if it is us
+  // accelerate object due to gravity and electrostatic force
+  for (objId = 0; this != game->getObj(objId); objId++); // skip objects whose force has already been calculated
+  for (int i = objId + 1; i < game->getNObj(); i++) {
     distSq = game->getObj(i)->distSqTo(x, y);
     if (distSq < pow(radius + game->getObj(i)->getRadius(), 2)) {
-      if (collided < 0) {
-        collided = i; // object is at this position
-      }
+      collided = i; // object is at this position
+      game->getObj(i)->setCollided(objId);
     }
     else {
-      temp = (game->getObj(i)->getMass() - charge * game->getObj(i)->getCharge() / mass) / pow(distSq, 1.5); // derived from universal law of gravitation and Coulomb's law
-      xAccel += (game->getObj(i)->getX() - x) * temp;
-      yAccel += (game->getObj(i)->getY() - y) * temp;
+      temp = (game->getObj(i)->getMass() - charge * game->getObj(i)->getCharge() / mass) / pow(distSq, 1.5) * UpdateRate * UpdateRate; // derived from universal law of gravitation and Coulomb's law
+      accel((game->getObj(i)->getX() - x) * temp, (game->getObj(i)->getY() - y) * temp);
+      temp *= -mass / game->getObj(i)->getMass();
+      game->getObj(i)->accel((game->getObj(i)->getX() - x) * temp, (game->getObj(i)->getY() - y) * temp);
     }
   }
-  xAccel *= UpdateRate * UpdateRate;
-  yAccel *= UpdateRate * UpdateRate;
-  // accelerate object due to gravity and electrostatic force
-  accel(xAccel, yAccel);
-  return collided;
 }
 
 /** update position by current velocity */
@@ -154,6 +150,7 @@ void Obj::updatePos() {
   x += xVel;
   y += yVel;
   rotate = rotateAim * 0.15 + rotate * 0.85; // smoothly rotate to targeted angle
+  collided = -1; // reset object currently colliding with
 }
 
 /** draw image of object */
@@ -164,6 +161,11 @@ void Obj::draw() {
 /** mark object for deletion in this frame */
 void Obj::setDelete() {
   del = true;
+}
+
+/** mark object as colliding with specified object */
+void Obj::setCollided(int newCollided) {
+  collided = newCollided;
 }
 
 /** @return square of distance between (toX, toY) and this object */
