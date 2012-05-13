@@ -172,7 +172,7 @@ void Game::paintEvent(QPaintEvent *evt) {
     // draw instructions
     drawCenterText(windowTitle().toStdString(), TextHeight);
     textY += TextHeight * 2;
-    drawCenterText("Use arrow keys to move, and +/- to zoom", textY);
+    drawCenterText("Use arrow keys to move, +/- to zoom, and F11 to toggle fullscreen", textY);
     if (getAllUnobtainInitial()) {
       // unobtainium
       textY += TextHeight * 2;
@@ -311,7 +311,7 @@ void Game::timerEvent(QTimerEvent *evt) {
 // for future reference, use evt->isAutoRepeat() to check if this is a simulated repeat key press
 void Game::keyPressEvent(QKeyEvent *evt) {
   double xMove = 0, yMove = 0;
-  if (0 == frame && evt->key() != Qt::Key_Escape) {
+  if (0 == frame && evt->key() != Qt::Key_Escape && evt->key() != Qt::Key_F11) {
     // start game
     killTimer(timerId); // in case timer is still running
     clock.start();
@@ -340,10 +340,6 @@ void Game::keyPressEvent(QKeyEvent *evt) {
       drawScl *= 1.1;
       if (drawScl > 1) drawScl = 1;
       break;
-    // toggle background images
-    case Qt::Key_B:
-      bkImgsEnable = !bkImgsEnable;
-      break;
     // new game
     case Qt::Key_R:
       newGame(level);
@@ -353,6 +349,14 @@ void Game::keyPressEvent(QKeyEvent *evt) {
       break;
     case Qt::Key_N:
       if (level < NLevel - 1) newGame(level + 1);
+      break;
+    // toggle fullscreen
+    case Qt::Key_F11:
+      setWindowState(windowState() ^ Qt::WindowFullScreen);
+      break;
+    // toggle background images
+    case Qt::Key_B:
+      bkImgsEnable = !bkImgsEnable;
       break;
     // exit game
     case Qt::Key_Escape:

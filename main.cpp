@@ -23,6 +23,7 @@ A growing problem is the increasing amount of space junk orbiting around Earth, 
 - R: replay level
 - P: play previous level
 - N: play next level
+- F11: toggle fullscreen
 - B: toggle fancy background images (in case streaming backgrounds over ssh causes lag)
 - escape: exit
 
